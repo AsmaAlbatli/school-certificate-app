@@ -280,21 +280,26 @@
     .certificate-wrap{
       display:flex;
       flex-direction:column;
-      align-items:center;
-      overflow:hidden;
+      align-items:stretch;
+      overflow-x:auto;
+      overflow-y:hidden;
       padding:8px 0 16px;
       min-width:0;
+      max-width:100%;
+      -webkit-overflow-scrolling:touch;
     }
 
     .cert-viewport{
-      margin:0 auto;
-      overflow:hidden;
+      margin:0;
+      overflow:visible;
       flex-shrink:0;
+      width:1000px;
+      height:707px;
     }
 
     .cert-scale{
-      transform-origin:top center;
-      transition:transform .2s ease;
+      transform:none;
+      width:1000px;
     }
 
     #certificate{
@@ -635,7 +640,7 @@
 
     <main class="certificate-wrap" aria-label="معاينة الشهادة">
       <div class="preview-hint">
-        <span>معاينة مباشرة للشهادة</span>
+        <span>مرّر أفقياً لعرض الشهادة كاملة</span>
         <span id="scaleLabel">100%</span>
       </div>
       <div class="cert-viewport" id="certViewport">
@@ -754,25 +759,19 @@
     }
 
     function fitCertificateScale(){
-      const wrap = document.querySelector(".certificate-wrap");
       const viewport = document.getElementById("certViewport");
       const scaleEl = document.getElementById("certScale");
       const label = document.getElementById("scaleLabel");
-      if(!wrap || !scaleEl) return;
-
-      const available = Math.max(280, wrap.clientWidth);
-      const scale = Math.min(1, available / CERT_WIDTH);
-      const scaledW = Math.max(1, Math.ceil(CERT_WIDTH * scale));
-      const scaledH = Math.max(1, Math.ceil(CERT_HEIGHT * scale));
+      if(!scaleEl) return;
 
       if(viewport){
-        viewport.style.width = scaledW + "px";
-        viewport.style.height = scaledH + "px";
-        viewport.style.margin = "0 auto";
+        viewport.style.width = CERT_WIDTH + "px";
+        viewport.style.height = CERT_HEIGHT + "px";
+        viewport.style.margin = "0";
       }
       scaleEl.style.width = CERT_WIDTH + "px";
-      scaleEl.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
-      if(label) label.textContent = Math.round(scale * 100) + "%";
+      scaleEl.style.transform = "none";
+      if(label) label.textContent = "100%";
     }
 
     function previewCertificate(){
