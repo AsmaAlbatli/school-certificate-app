@@ -295,6 +295,8 @@
 
     #certificate{
       font-family:var(--font-cert);
+      direction:rtl;
+      unicode-bidi:embed;
       width:1000px;
       height:707px;
       background:
@@ -465,6 +467,8 @@
       display:block;
       margin-bottom:4px;
       font-weight:700;
+      direction:rtl;
+      unicode-bidi:isolate;
     }
 
     .detail .detail-value{
@@ -473,6 +477,8 @@
       display:block;
       line-height:1.4;
       min-height:1.4em;
+      direction:rtl;
+      unicode-bidi:plaintext;
     }
 
     .cert-out.is-empty{
@@ -656,7 +662,7 @@
           <div class="cert-bottom">
             <div class="details">
               <div class="detail">
-                <b>يوم الحضور</b>
+                <b dir="rtl">يوم الحضور</b>
                 <span id="dayOut" class="detail-value cert-out is-empty"></span>
               </div>
               <div class="detail">
@@ -664,7 +670,7 @@
                 <span id="hoursOut" class="detail-value cert-out is-empty"></span>
               </div>
               <div class="detail">
-                <b>التاريخ</b>
+                <b dir="rtl">التاريخ</b>
                 <span id="dateOut" class="detail-value cert-out is-empty"></span>
               </div>
             </div>
@@ -692,8 +698,16 @@
 
     function formatDate(dateValue){
       if(!dateValue) return "";
-      const parts = dateValue.split("-");
-      return parts[2] + " / " + parts[1] + " / " + parts[0];
+      try {
+        const date = new Date(dateValue + "T12:00:00");
+        return new Intl.DateTimeFormat("ar-SA", {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }).format(date);
+      } catch (e) {
+        return dateValue;
+      }
     }
 
     function showToast(message){
