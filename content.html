@@ -148,24 +148,13 @@
       transition:border-color .2s, box-shadow .2s, background .2s;
     }
 
-    input::placeholder{
-      color:#8aab9e;
-      opacity:1;
-    }
-
     input[type="date"]{
       direction:ltr;
       text-align:left;
     }
 
-    select.select-placeholder:invalid{
-      color:#8aab9e;
-    }
-
-    select.select-placeholder option{
-      color:var(--text);
-      direction:rtl;
-      unicode-bidi:isolate;
+    input[type="date"]:not(.has-value):not(:focus)::-webkit-datetime-edit{
+      visibility:hidden;
     }
 
     input:hover, select:hover{
@@ -611,8 +600,8 @@
       <p class="group-title">تفاصيل الحضور</p>
       <div class="field-group">
         <label for="day">يوم الحضور</label>
-        <select id="day" class="select-placeholder" required onchange="updateCertificate()">
-        <option value="" selected disabled>&#x2067;اختر اليوم&#x2069;</option>
+        <select id="day" onchange="updateCertificate()">
+        <option value="" selected></option>
         <option>الأحد</option>
         <option>الاثنين</option>
         <option>الثلاثاء</option>
@@ -622,12 +611,12 @@
       </div>
       <div class="field-group">
         <label for="date">التاريخ</label>
-        <input id="date" type="date" value="" onchange="updateCertificate()" />
+        <input id="date" type="date" value="" onchange="updateCertificate()" oninput="syncDateField()" />
       </div>
       <div class="field-group">
         <label for="hours">عدد الساعات</label>
-        <select id="hours" class="select-placeholder" required onchange="updateCertificate()">
-        <option value="" selected disabled>&#x2067;اختر عدد الساعات&#x2069;</option>
+        <select id="hours" onchange="updateCertificate()">
+        <option value="" selected></option>
         <option>1 ساعة</option>
         <option>2 ساعتان</option>
         <option>3 ساعات</option>
@@ -882,6 +871,11 @@ body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh
       el.classList.toggle("is-empty", empty);
     }
 
+    function syncDateField(){
+      const dateInput = document.getElementById("date");
+      dateInput.classList.toggle("has-value", !!dateInput.value);
+    }
+
     function updateCertificate(){
       setCertField("schoolOut", document.getElementById("school").value);
       document.getElementById("jobOut").textContent = document.getElementById("job").value;
@@ -889,6 +883,7 @@ body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh
       setCertField("dayOut", document.getElementById("day").value);
       setCertField("hoursOut", document.getElementById("hours").value);
       setCertField("dateOut", formatDate(document.getElementById("date").value));
+      syncDateField();
     }
 
     function resetFields(){
