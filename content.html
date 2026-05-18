@@ -151,6 +151,65 @@
     input::placeholder{
       color:#8aab9e;
       opacity:1;
+      direction:rtl;
+      unicode-bidi:isolate;
+    }
+
+    .date-wrap{
+      position:relative;
+    }
+
+    .date-input{
+      direction:ltr;
+      text-align:right;
+      color-scheme:light;
+    }
+
+    .date-input:invalid{
+      color:transparent;
+    }
+
+    .date-input:invalid::-webkit-datetime-edit{
+      opacity:0;
+    }
+
+    .date-input:focus,
+    .date-input:valid{
+      color:var(--text);
+    }
+
+    .date-input:focus::-webkit-datetime-edit,
+    .date-input:valid::-webkit-datetime-edit{
+      opacity:1;
+    }
+
+    .date-hint{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding:0 13px;
+      color:#8aab9e;
+      font-size:.9rem;
+      pointer-events:none;
+      direction:rtl;
+      unicode-bidi:isolate;
+    }
+
+    .date-input:valid ~ .date-hint,
+    .date-input:focus ~ .date-hint{
+      display:none;
+    }
+
+    select.select-placeholder:invalid{
+      color:#8aab9e;
+    }
+
+    select.select-placeholder option{
+      color:var(--text);
+      direction:rtl;
+      unicode-bidi:isolate;
     }
 
     input:hover, select:hover{
@@ -596,8 +655,8 @@
       <p class="group-title">تفاصيل الحضور</p>
       <div class="field-group">
         <label for="day">يوم الحضور</label>
-        <select id="day" onchange="updateCertificate()">
-        <option value="" selected></option>
+        <select id="day" class="select-placeholder" required onchange="updateCertificate()">
+        <option value="" selected disabled>&#x2067;اختر اليوم&#x2069;</option>
         <option>الأحد</option>
         <option>الاثنين</option>
         <option>الثلاثاء</option>
@@ -607,12 +666,15 @@
       </div>
       <div class="field-group">
         <label for="date">التاريخ</label>
-        <input id="date" type="date" value="" onchange="updateCertificate()" />
+        <div class="date-wrap">
+          <input id="date" class="date-input" type="date" value="" required onchange="updateCertificate()" />
+          <span class="date-hint" aria-hidden="true">&#x2067;يوم / شهر / سنة&#x2069;</span>
+        </div>
       </div>
       <div class="field-group">
         <label for="hours">عدد الساعات</label>
-        <select id="hours" onchange="updateCertificate()">
-        <option value="" selected></option>
+        <select id="hours" class="select-placeholder" required onchange="updateCertificate()">
+        <option value="" selected disabled>&#x2067;اختر عدد الساعات&#x2069;</option>
         <option>1 ساعة</option>
         <option>2 ساعتان</option>
         <option>3 ساعات</option>
