@@ -151,55 +151,11 @@
     input::placeholder{
       color:#8aab9e;
       opacity:1;
-      direction:rtl;
-      unicode-bidi:isolate;
     }
 
-    .date-wrap{
-      position:relative;
-    }
-
-    .date-input{
+    input[type="date"]{
       direction:ltr;
-      text-align:right;
-      color-scheme:light;
-    }
-
-    .date-input:invalid{
-      color:transparent;
-    }
-
-    .date-input:invalid::-webkit-datetime-edit{
-      opacity:0;
-    }
-
-    .date-input:focus,
-    .date-input:valid{
-      color:var(--text);
-    }
-
-    .date-input:focus::-webkit-datetime-edit,
-    .date-input:valid::-webkit-datetime-edit{
-      opacity:1;
-    }
-
-    .date-hint{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      padding:0 13px;
-      color:#8aab9e;
-      font-size:.9rem;
-      pointer-events:none;
-      direction:rtl;
-      unicode-bidi:isolate;
-    }
-
-    .date-input:valid ~ .date-hint,
-    .date-input:focus ~ .date-hint{
-      display:none;
+      text-align:left;
     }
 
     select.select-placeholder:invalid{
@@ -666,10 +622,7 @@
       </div>
       <div class="field-group">
         <label for="date">التاريخ</label>
-        <div class="date-wrap">
-          <input id="date" class="date-input" type="date" value="" required onchange="updateCertificate()" />
-          <span class="date-hint" aria-hidden="true">&#x2067;يوم / شهر / سنة&#x2069;</span>
-        </div>
+        <input id="date" type="date" value="" onchange="updateCertificate()" />
       </div>
       <div class="field-group">
         <label for="hours">عدد الساعات</label>
